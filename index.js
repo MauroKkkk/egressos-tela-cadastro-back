@@ -37,18 +37,36 @@ app.post('/login', (req, res) => {
 app.post('/cadastro', (req, res) => {
     
     const name = req.body.name
-    const email = req.body.email
     const password = req.body.password
+    const email = req.body.email
     const date = req.body.date
+    const wcep = req.body.wcep
+    const institution = req.body.institution
+    const courseName = req.body.courseName
+    const dateIn = req.body.dateIn
+    const dateOut = req.body.dateOut
     const cep = req.body.cep
-    const wcep =  req.body.wcep
     const acting = req.body.acting
     const workcnpj = req.body.workCNPJ
     
-    const sqlInsert = 'INSERT INTO Client (name, email, password, yearBirthday, home_cep, work, work_cnpj, work_cep) VALUES (?,?,?,?,?,?,?,?)'
-    db.query(sqlInsert, [name, email, password, date, cep, wcep, acting, workcnpj, wcep], (err, result) => {
+    const sqlInsertClient = 'INSERT INTO Client (name, password, email, yearBirthday, home_cep, work, work_cnpj, work_cep) VALUES (?,?,?,?,?,?,?,?)'
+    const sqlInsertInstitution = 'INSERT INTO Institution (institutionCode, courseName, endYear, startYear) VALUES (?,?,?,?)'
+    db.query(sqlInsertInstitution, [institution, courseName, dateOut, dateIn], (err, result) => {
         if(err){
-            res.send(err)
+            console.log(err)
+            console.log(1)
+        }else{
+            if(result){
+                console.log(result)
+                console.log(2)
+            }else{
+                console.log(3)
+            }
+        }
+    })
+    db.query(sqlInsertClient, [name, password, email, date, cep, acting, workcnpj, wcep], (err, result) => {
+        if(err){
+            console.log(err)
             console.log(1)
         }else{
             if(result){
